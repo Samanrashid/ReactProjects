@@ -7,7 +7,7 @@ function App() {
     <>
       <Navbar title="TextUtils" />
       <div className="container my-3">
-        <Textform heading="Enter for word count" />
+        <Textform />
       </div>
     </>
   );

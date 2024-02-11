@@ -1,5 +1,9 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
+import { FaArrowDown } from "react-icons/fa";
+import { GrClear } from "react-icons/gr";
+import { MdFindInPage } from "react-icons/md";
 
 export default function Textform(props) {
   const handleUpClick = () => {
@@ -9,12 +13,42 @@ export default function Textform(props) {
   const handleOnChange = (event) => {
     setEnterText(event.target.value);
   };
+  const countWords = (text) => {
+    const words = text.match(/\b\w+\b/g);
+    return words ? words.length : 0;
+  };
   const handleLowerClick = () => {
-    const textLength = enterText.length;
-    console.log(textLength);
+    let lowerText = enterText.toLowerCase();
+    setEnterText(lowerText);
+  };
+  const handleClearClick = () => {
+    const clearText = "";
+    setEnterText(clearText);
   };
 
-  const [enterText, setEnterText] = useState("Enter your Text here");
+  const handleReverseClick = () => {
+    console.log("inverse click is triggered");
+    let newtext = "";
+    for (let i = enterText.length - 1; i >= 0; i--) {
+      newtext += enterText[i];
+    }
+    setEnterText(newtext);
+  };
+  const handleFindChange = (event) => {
+    findWord(event.target.value);
+  };
+  const handleReplaceChange = (event) => {
+    console.log(replaceWord(event.target.value));
+  };
+  const handleReplaceClick = () => {
+    let newText = enterText.replaceAll(fWord, rWord);
+    setEnterText(newText);
+  };
+
+  const [enterText, setEnterText] = useState("");
+  const [fWord, findWord] = useState("");
+  const [rWord, replaceWord] = useState("");
+
   return (
     <>
       <h3>{props.heading}</h3>
@@ -30,21 +64,60 @@ export default function Textform(props) {
           onChange={handleOnChange}
         ></textarea>
       </div>
-      <div className="d-flex justify-content-between">
+      <div className="container d-flex justify-content-between ">
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary "
           onClick={handleUpClick}
         >
+          <FaArrowUp />
           Convert to UpperCase
         </button>
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-warning"
           onClick={handleLowerClick}
         >
-          Check length of text
+          <FaArrowDown />
+          Convert to LowerCase
         </button>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={handleClearClick}
+        >
+          <GrClear />
+          Clear Text
+        </button>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={handleReverseClick}
+        >
+          <MdFindInPage />
+          Reverse Text
+        </button>
+        <input
+          type="text"
+          value={fWord} // Bind the value of the input to the state
+          onChange={handleFindChange} // Call the event handler on change
+          placeholder="Type something..." // Optional placeholder text
+        />
+        <input
+          type="text"
+          value={rWord} // Bind the value of the input to the state
+          onChange={handleReplaceChange} // Call the event handler on change
+          placeholder="Type something..." // Optional placeholder text
+        />
+        <button className="btn-grey" onClick={handleReplaceClick}>
+          find and replace
+        </button>
+      </div>
+
+      <div className="container my-4">
+        <p>
+          {countWords(enterText)} words and character and {enterText.length}
+        </p>
       </div>
     </>
   );
@@ -52,4 +125,5 @@ export default function Textform(props) {
 Textform.propTypes = {
   Text: PropTypes.string,
   heading: PropTypes.string,
+  heading2: PropTypes.string,
 };
