@@ -1,10 +1,11 @@
-const Navbar = () => {
+import PropTypes from "prop-types";
+export default function Navbar(props) {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            Navbar
+            {props.title}
           </a>
           <button
             className="navbar-toggler"
@@ -26,7 +27,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
-                  About
+                  {props.aboutClass}
                 </a>
               </li>
             </ul>
@@ -46,6 +47,6 @@ const Navbar = () => {
       </nav>
     </>
   );
-};
-
-export default Navbar;
+}
+Navbar.propTypes = { title: PropTypes.string, aboutClass: PropTypes.string };
+Navbar.defaultProps = { title: "Title here", aboutClass: "About" };
