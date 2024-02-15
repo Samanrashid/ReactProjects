@@ -12,6 +12,7 @@ export default function Textform(props) {
   const handleUpClick = () => {
     let newText = enterText.toUpperCase();
     setEnterText(newText);
+    props.showAlert("converted to upper case", "success");
   };
 
   const handleOnChange = (event) => {
@@ -26,11 +27,13 @@ export default function Textform(props) {
   const handleLowerClick = () => {
     let lowerText = enterText.toLowerCase();
     setEnterText(lowerText);
+    props.showAlert("converted to Lower case", "success");
   };
 
   const handleClearClick = () => {
     const clearText = "";
     setEnterText(clearText);
+    props.showAlert("cleared text", "success");
   };
 
   const handleReverseClick = () => {
