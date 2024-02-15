@@ -1,53 +1,64 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { GrClear } from "react-icons/gr";
 import { MdFindInPage } from "react-icons/md";
 
 export default function Textform(props) {
+  const [enterText, setEnterText] = useState("");
+  const [fWord, findWord] = useState("");
+  const [rWord, replaceWord] = useState("");
+
   const handleUpClick = () => {
     let newText = enterText.toUpperCase();
     setEnterText(newText);
   };
+
   const handleOnChange = (event) => {
     setEnterText(event.target.value);
   };
+
   const countWords = (text) => {
     const words = text.match(/\b\w+\b/g);
     return words ? words.length : 0;
   };
+
   const handleLowerClick = () => {
     let lowerText = enterText.toLowerCase();
     setEnterText(lowerText);
   };
+
   const handleClearClick = () => {
     const clearText = "";
     setEnterText(clearText);
   };
 
   const handleReverseClick = () => {
-    console.log("inverse click is triggered");
     let newtext = "";
     for (let i = enterText.length - 1; i >= 0; i--) {
       newtext += enterText[i];
     }
     setEnterText(newtext);
   };
+
   const handleFindChange = (event) => {
     findWord(event.target.value);
   };
+
   const handleReplaceChange = (event) => {
-    console.log(replaceWord(event.target.value));
+    replaceWord(event.target.value);
   };
+
   const handleReplaceClick = () => {
     let newText = enterText.replaceAll(fWord, rWord);
     setEnterText(newText);
   };
 
-  const [enterText, setEnterText] = useState("");
-  const [fWord, findWord] = useState("");
-  const [rWord, replaceWord] = useState("");
+  const speak = () => {
+    let msg = new SpeechSynthesisUtterance();
+    msg.text = enterText;
+    window.speechSynthesis.speak(msg);
+  };
 
   return (
     <>
@@ -109,8 +120,11 @@ export default function Textform(props) {
           onChange={handleReplaceChange} // Call the event handler on change
           placeholder="Type something..." // Optional placeholder text
         />
-        <button className="btn-grey" onClick={handleReplaceClick}>
+        <button className="btn btn-secondary" onClick={handleReplaceClick}>
           find and replace
+        </button>
+        <button type="submit" onClick={speak} className="btn btn-warning ">
+          Speak
         </button>
       </div>
 
@@ -122,6 +136,7 @@ export default function Textform(props) {
     </>
   );
 }
+
 Textform.propTypes = {
   Text: PropTypes.string,
   heading: PropTypes.string,
